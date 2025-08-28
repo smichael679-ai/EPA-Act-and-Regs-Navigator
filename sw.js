@@ -3,7 +3,7 @@ const CACHE_NAME = 'epa-navigator-cache-v1';
 // The path must be relative to the root of your website.
 // For GitHub pages, if your repo is "epa-navigator", the paths will be "/epa-navigator/", "/epa-navigator/index.html", etc.
 // You will need to update this list after you know your repository name.
-const urlsToCache = [
+const urlsToCache = [epa-navigator/index.html
     './',
     './index.html',
     './manifest.json',

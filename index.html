@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPA Guyana Act and Regulations Navigator</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#10B981">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="EPA Navigator">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .search-container { max-width: 800px; margin: 0 auto; }
+        .result-item { border-left: 4px solid #10B981; transition: all 0.3s ease; }
+        .result-item:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .loader { border-top-color: #10B981; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #install-prompt { display: none; position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 100; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-2">EPA Guyana Act and Regulations Navigator</h1>
+            <p class="text-md md:text-lg text-gray-600">Your guide to the Environmental Protection Act and Regulations of Guyana</p>
+        </header>
+
+        <main>
+            <div class="search-container bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-200">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="text" id="searchInput" placeholder="E.g., 'What are the penalties for littering?'" class="flex-grow w-full px-5 py-3 text-base text-gray-700 placeholder-gray-400 bg-gray-100 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition">
+                    <button id="searchButton" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 flex items-center justify-center">
+                        <svg id="searchIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <div id="loader" class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-6 w-6 hidden mr-2"></div>
+                        <span id="buttonText">Search</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="results" class="mt-8 md:mt-12 space-y-6"></div>
+             <div id="noResults" class="hidden text-center mt-12">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="mt-4 text-lg font-medium text-gray-900">No relevant sections found</h3>
+                <p class="mt-1 text-sm text-gray-500">Try searching with different keywords.</p>
+            </div>
+        </main>
+    </div>
+
+    <div id="install-prompt" class="bg-gray-800 text-white py-3 px-6 rounded-lg shadow-xl flex items-center gap-4">
+        <p>Install this app for offline access!</p>
+        <button id="install-button" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-md">Install</button>
+    </div>
+
+    <script>
+        // --- PWA Service Worker Registration ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js') // Points to your service worker file
+                    .then(registration => console.log('ServiceWorker registration successful.'))
+                    .catch(err => console.log('ServiceWorker registration failed: ', err));
+            });
+        }
+
+        // --- PWA Install Prompt ---
+        let deferredPrompt;
+        const installPromptDiv = document.getElementById('install-prompt');
+        const installButton = document.getElementById('install-button');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installPromptDiv.style.display = 'flex';
+        });
+
+        installButton.addEventListener('click', async () => {
+            installPromptDiv.style.display = 'none';
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            deferredPrompt = null;
+        });
+
+
+        // --- Application Logic ---
+        const searchButton = document.getElementById('searchButton');
+        const searchInput = document.getElementById('searchInput');
+        const resultsDiv = document.getElementById('results');
+        const noResultsDiv = document.getElementById('noResults');
+        const loader = document.getElementById('loader');
+        const buttonText = document.getElementById('buttonText');
+        const searchIcon = document.getElementById('searchIcon');
+
+        const epaActSections = {
+            "ENVIRONMENTAL PROTECTION ACT": {
+                "Section 2: Interpretation": "Defines key terms like 'adverse effect', 'contaminant', 'environment', 'pollution', etc.",
+                "Section 4: Functions of Agency": "Outlines the EPA's functions, including managing the environment, preventing pollution, and enforcing regulations.",
+                "Section 11: Requirement for environmental impact assessment": "Specifies when an EIA is required for projects that may significantly affect the environment.",
+                "Section 19: Prevention of pollution": "Prohibits activities that cause pollution unless reasonable measures are taken. Outlines penalties and cleanup responsibilities.",
+                "Section 26 & 27: Enforcement and Prohibition Notices": "The Agency may serve an enforcement notice for contraventions and a prohibition notice for serious threats to the environment.",
+                "Section 39: Damage to environment": "Establishes offences and penalties for causing material or serious environmental harm.",
+                "Section 48: Civil proceedings": "Allows any person who has suffered loss or damage from an environmental offence to sue for recovery in the High Court."
+            },
+            "AUTHORISATIONS REGULATIONS 2000": {
+                 "Regulation 8: Fees": "Specifies fees for various applications, including registration, environmental authorisation, transfers, and variances.",
+                 "Regulation 13: Grounds for refusal": "The Agency may refuse to grant an environmental authorisation based on false information, bankruptcy, or if it's not in the best interest of Guyana.",
+                 "Regulation 17: Requirement to apply for authorisation": "Details the comprehensive information required for an environmental authorisation application.",
+                 "Regulation 20: Application for variance": "A holder of an authorisation can apply to vary its provisions based on scientific evidence and other specific conditions.",
+                 "Regulation 21: Transfer of environmental authorisation": "An environmental authorisation cannot be transferred without the prior consent of the Agency."
+            },
+            "AIR QUALITY REGULATIONS 2000": {
+                "Regulation 4: General requirement to apply for an authorisation": "Any facility emitting air contaminants from industrial, commercial, or agricultural activities must apply for an environmental authorisation.",
+                "Regulation 8: Parameter limits for stationary sources": "The Agency will establish parameter limits for contaminants from stationary sources. New facilities must not exceed these limits.",
+                "Regulation 18: Restrictions on sale of new and used imported vehicles": "Prohibits the sale of imported vehicles that do not meet established exhaust emission standards.",
+                "Regulation 24: Air Pollution Monitoring Index": "The Agency may prepare an Air Pollution Monitoring Index and can order curtailment of pollution sources during an air pollution episode."
+            },
+            "NOISE MANAGEMENT REGULATIONS 2000": {
+                "Regulation 4: Permissible noise levels": "The Agency will fix permissible noise levels (in decibels) for various categories, including residential, commercial, and industrial areas.",
+                "Regulation 10: Restriction on construction activities": "Construction activities may be prohibited during certain hours (11:00 p.m. to 6:00 a.m. Mon-Sat, and on Sundays) on the complaint of a neighbour.",
+                "Regulation 13: Offence to cause loud noise": "It is an offence to operate any sound-making device in a building or vehicle that is plainly audible at a distance of fifty feet.",
+                "Regulation 14: Restriction on sound-making device in a public place": "Prohibits operating sound-making devices in public places between 11 p.m. and 7 a.m. without prior permission from the Agency."
+            },
+            "WATER QUALITY REGULATIONS 2000": {
+                "Regulation 4: General requirement to apply for an authorisation": "Any person or facility discharging effluent from industrial, commercial, agricultural, or sewage-related activities must apply for an environmental authorisation.",
+                "Regulation 5: Restrictions on the discharge of effluents": "Prohibits the discharge of effluent into any inland or coastal waters or on land without an environmental authorisation. Prohibits toxic, radiological, or chemical wastes.",
+                "Regulation 9: Parameter limits of effluent discharges": "The Agency will establish parameter limits for substances that can be discharged. New facilities must not exceed these limits.",
+                "Regulation 23: Spill or accidental discharge": "The person responsible for a spill must immediately inform the Agency and is required to contain, cleanse, or abate the spill."
+            },
+            "HAZARDOUS WASTE MANAGEMENT REGULATIONS 2000": {
+                "Regulation 2: Interpretation": "Defines 'hazardous waste' as waste that, due to its characteristics, may pose a substantial hazard to human health.",
+                "Regulation 4: General requirement to apply for an authorisation": "Any person operating a facility that generates, transports, treats, stores, or disposes of hazardous waste must apply for an environmental authorisation.",
+                "Regulation 15: Requirement for emergency preparedness plan": "Holders of an authorisation must submit an emergency preparedness plan to minimize hazards from fires, explosions, or accidental releases.",
+                "Regulation 21: Requirement for manifest": "A hazardous waste manifest is required for the transportation of hazardous waste, detailing its origin, composition, and destination.",
+                "Regulation 26: Contamination of any place": "Willfully or negligently causing contamination of any place (except a declared disposal site) can lead to a fine of not less than $800,000 and imprisonment for five years."
+            },
+            "LITTER ENFORCEMENT REGULATIONS 2013": {
+                "Regulation 2: What is litter?": "Defines litter broadly to include any solid or liquid material, from bottles and paper to derelict vehicles and animal remains.",
+                "Regulation 3: Depositing litter in a public place": "It is an offence to deposit litter in a public place other than in a proper receptacle. The fine is $50,000 for an individual and $100,000 for a company.",
+                "Regulation 4: Disposal of litter from motor vehicle": "It is an offence to transport any material likely to fall or blow off a vehicle. The fine is $50,000 for an individual and $100,000 for a company.",
+                "Regulation 22: Powers and duties of litter prevention wardens": "Litter prevention wardens are authorized to enforce the regulations, require a person to clean up litter, and issue removal orders."
+            },
+            "EXPANDED POLYSTYRENE BAN REGULATIONS 2015": {
+                "Regulation 5: Prohibition": "The importation, manufacture, sale, or offer for sale of expanded polystyrene (Styrofoam) products in Guyana is prohibited.",
+                "Regulation 6: Prohibition of Sale by Food Service Establishments": "No food service establishment shall sell or provide food in expanded polystyrene food service products.",
+                "Regulation 7: Penalty": "Food service establishments in contravention may be issued a written warning or face a fine of no less than one hundred thousand dollars."
+            },
+            "FIFTH SCHEDULE PENALTIES (FROM MAIN ACT)": {
+                "Paragraph (e)": "A fine of not less than $75,000 nor more than $500,000 and imprisonment for six months.",
+                "Paragraph (f)": "A fine of not less than $300,000 nor more than $750,000 and imprisonment for one year.",
+                "Paragraph (h)": "A fine of not less than $800,000 nor more than $2,000,000 and imprisonment for five years."
+            }
+        };
+
+        const performSearch = () => {
+            const query = searchInput.value.toLowerCase().trim();
+            if (!query) {
+                resultsDiv.innerHTML = '<p class="text-center text-gray-500">Please enter a question to search.</p>';
+                noResultsDiv.classList.add('hidden');
+                return;
+            }
+
+            loader.classList.remove('hidden');
+            searchIcon.classList.add('hidden');
+            buttonText.textContent = 'Searching...';
+            searchButton.disabled = true;
+            searchInput.disabled = true;
+
+            resultsDiv.innerHTML = '';
+            noResultsDiv.classList.add('hidden');
+
+            setTimeout(() => { 
+                const keywords = query.split(/\s+/).filter(word => word.length > 2);
+                let searchResults = [];
+
+                for (const part in epaActSections) {
+                    for (const section in epaActSections[part]) {
+                        const content = epaActSections[part][section].toLowerCase();
+                        const sectionTitle = section.toLowerCase();
+                        const partTitle = part.toLowerCase();
+                        let score = 0;
+
+                        keywords.forEach(keyword => {
+                            if (content.includes(keyword)) score += 2;
+                            if (sectionTitle.includes(keyword)) score += 5;
+                            if (partTitle.includes(keyword)) score += 8;
+                        });
+                        
+                        if (query.includes("penalty") && (sectionTitle.includes("penalties") || partTitle.includes("penalties"))) score += 10;
+                        if (query.includes("fine") && (sectionTitle.includes("penalties") || partTitle.includes("penalties"))) score += 10;
+                        if (query.includes("litter") && partTitle.includes("litter")) score += 10;
+                        if (query.includes("styrofoam") && partTitle.includes("polystyrene")) score += 15;
+                        if (query.includes("noise") && partTitle.includes("noise")) score += 10;
+                        if (query.includes("water") && partTitle.includes("water")) score += 10;
+                        if (query.includes("air") && partTitle.includes("air")) score += 10;
+                        if (query.includes("hazardous") && partTitle.includes("hazardous")) score += 10;
+                        if (query.includes("eia") && sectionTitle.includes("environmental impact assessment")) score += 10;
+
+                        if (score > 0) {
+                            searchResults.push({ part, section, content: epaActSections[part][section], score });
+                        }
+                    }
+                }
+
+                searchResults.sort((a, b) => b.score - a.score);
+                const topResults = searchResults.slice(0, 5);
+
+                if (topResults.length > 0) {
+                    displayResults(topResults);
+                } else {
+                    noResultsDiv.classList.remove('hidden');
+                }
+
+                loader.classList.add('hidden');
+                searchIcon.classList.remove('hidden');
+                buttonText.textContent = 'Search';
+                searchButton.disabled = false;
+                searchInput.disabled = false;
+
+            }, 1000);
+        };
+        
+        const displayResults = (results) => {
+            resultsDiv.innerHTML = results.map(result => `
+                <div class="result-item bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full mb-3">${result.part}</span>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">${result.section}</h3>
+                    <p class="text-gray-600 leading-relaxed">${highlightKeywords(result.content, searchInput.value)}</p>
+                </div>
+            `).join('');
+        };
+        
+        const highlightKeywords = (text, query) => {
+            const keywords = query.toLowerCase().split(/\s+/).filter(word => word.length > 2);
+            let highlightedText = text;
+            keywords.forEach(keyword => {
+                const regex = new RegExp(`(${keyword})`, 'gi');
+                highlightedText = highlightedText.replace(regex, '<strong class="bg-emerald-100 font-semibold">$1</strong>');
+            });
+            return highlightedText;
+        };
+
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,11 +1,11 @@
 {
-    "name": "EPA Guyana Act and Regulations Navigator",
+    "name": "EPA Guyana Act Navigator",
     "short_name": "EPA Navigator",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#f9fafb",
     "theme_color": "#10B981",
-    "description": "Your guide to the Environmental Protection Act and Regulations of Guyana.",
+    "description": "Your guide to the Environmental Protection Act of Guyana.",
     "icons": [
         {
             "src": "https://placehold.co/192x192/10B981/FFFFFF?text=EPA",

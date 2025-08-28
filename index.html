@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPA Guyana Act and Regulations Navigator</title>
+    <title>EPA Guyana Act Navigator</title>
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#10B981">
@@ -30,14 +30,14 @@
 
     <div class="container mx-auto p-4 md:p-8">
         <header class="text-center mb-8 md:mb-12">
-            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-2">EPA Guyana Act and Regulations Navigator</h1>
-            <p class="text-md md:text-lg text-gray-600">Your guide to the Environmental Protection Act and Regulations of Guyana</p>
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-2">EPA Guyana Act Navigator</h1>
+            <p class="text-md md:text-lg text-gray-600">Your guide to the Environmental Protection Act of Guyana</p>
         </header>
 
         <main>
             <div class="search-container bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-200">
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <input type="text" id="searchInput" placeholder="E.g., 'What are the penalties for littering?'" class="flex-grow w-full px-5 py-3 text-base text-gray-700 placeholder-gray-400 bg-gray-100 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition">
+                    <input type="text" id="searchInput" placeholder="E.g., 'environmental impact assessment'" class="flex-grow w-full px-5 py-3 text-base text-gray-700 placeholder-gray-400 bg-gray-100 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition">
                     <button id="searchButton" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 flex items-center justify-center">
                         <svg id="searchIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -68,7 +68,7 @@
         // --- PWA Service Worker Registration ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js') // Points to your service worker file
+                navigator.serviceWorker.register('./sw.js')
                     .then(registration => console.log('ServiceWorker registration successful.'))
                     .catch(err => console.log('ServiceWorker registration failed: ', err));
             });
@@ -103,122 +103,68 @@
         const buttonText = document.getElementById('buttonText');
         const searchIcon = document.getElementById('searchIcon');
 
-        const epaActSections = {
-            "ENVIRONMENTAL PROTECTION ACT": {
-                "Section 19: Prevention of pollution": [
-                    { "title": "Subsection (1)", "content": "A person shall not— (a) undertake an activity that causes or is likely to cause pollution of the environment unless the person takes all reasonable and practicable measures to prevent or minimise any resulting adverse effect; (b) discharge or cause or permit the entry into the environment, of any contaminant in any amount, concentration or level in excess of that prescribed by the regulations or stipulated by any environmental authorisation." },
-                    { "title": "Subsection (2)", "content": "(a) Any person who contravenes subsection (1)(a) shall be guilty of an offence and shall be liable to the penalties prescribed under paragraph (f) of the Fifth Schedule, (b) Any person who contravenes subsection (1)(b) shall be guilty of an offence and shall be liable to the penalties prescribed under paragraph (e) of the Fifth Schedule." },
-                    { "title": "Subsection (3)", "content": "Where subsection (1) is contravened the person responsible for the contaminant or for the process involving the contaminant or who causes or permits a discharge in contravention of subsection (1) shall - (a) immediately notify the Agency of the discharge, its circumstances, and actions taken; (b) restore the natural environment by cleaning up, removing, or neutralising the contaminant; (c) be liable for the cost of an independent investigation; (d) deposit a sum of money with the Agency to cover estimated restoration costs; (e) be liable to compensate any person who suffers loss or damage; and (f) do everything practicable to preserve evidence of the effects of the discharge." }
+        const environmentalProtectionAct = {
+            "PART I: PRELIMINARY": {
+                "Section 1: Short title": [
+                    { "title": "Full Text", "content": "This Act may be cited as the Environmental Protection Act." }
                 ],
-                "Section 39: Damage to environment": [
-                    { "title": "Subsection (1)", "content": "Every person who causes material environmental harm by polluting the environment intentionally or recklessly and with the 'knowledge that material environmental harm will or might result is guilty of an offence and shall be liable to the penalties prescribed under paragraph (f) of the Fifth Schedule." },
-                    { "title": "Subsection (2)", "content": "Every person who causes material environmental harm by polluting the environment is guilty of an offence and shall be liable to the penalties prescribed under paragraph (e) of the Fifth Schedule." },
-                    { "title": "Subsection (3)", "content": "Every person who causes serious environmental harm by polluting the environment intentionally or recklessly and with the knowledge that serious environmental harm will or might result is guilty of an offence and shall be liable to the penalties prescribed under paragraph (h) of the Fifth Schedule." },
-                    { "title": "Subsection (4)", "content": "Every person who causes serious environmental harm by polluting the environment is guilty of an offence and shall be liable to the penalties prescribed under paragraph (f) of the Fifth Schedule." },
-                    { "title": "Subsection (5)", "content": "Environmental harm is to be treated as material environmental harm if— (i) it consists of an environmental nuisance of a high impact or on a wide scale; or (ii) it involves actual or potential harm to the health or safety of human beings that is not trivial, or other actual or potential environmental harm (not being merely an environmental nuisance) that is not trivial." },
-                    { "title": "Subsection (6)", "content": "Environmental harm is to be treated as serious environmental harm if it involves actual or potential harm to the health or safety of human beings that is of a high impact or on a wide scale, or other actual or potential environmental harm (not being merely an environmental nuisance) that is of a high impact or on a wide scale." }
+                "Section 2: Interpretation": [
+                    { "title": "Full Text", "content": "In this Act— 'activity' means industrial or commercial activity or activity of any other nature whatsoever, and for those purposes the keeping of a substance is to be regarded as an activity; 'adverse effect' means one or more of the following— (a) impairment of the quality of the natural environment or any use that can be made of it; (b) injury or damage to property or to plant or animal life; (c) harm or material discomfort to any person; (d) an adverse effect on the health of any person; (e) impairment of the safety of any person; (f) rendering any property or plant or animal life unfit for use by human or unfit for its role in its ecosystem; (g) loss of enjoyment of normal use of property; and (h) interference with the normal conduct of business; 'Agency' means the Environmental Protection Agency established under section 3; 'authorised person' includes any employee of the Agency, or any person authorised in writing by the Minister; 'contaminant' means any solid, liquid, gas, odour, sound, vibration, radiation, heat or combination of any of them resulting directly or indirectly from human activities that may cause an adverse effect; 'development consent' means the decision of the public authority which entitles the developer to proceed with the project; 'effluent' means any liquid, including particles of matter and other substances in suspension in the liquid and 'trade effluent' includes any effluent which is discharged from premises used for carrying on any trade or industry; and for the purposes of this definition premises wholly or mainly used (whether for profit or not) for agricultural purposes or for scientific research or experiment shall be deemed to be premises used for carrying on a trade or industry; 'environment' or 'natural environment' means all land, area beneath the land surface, atmosphere, climate, all water, surface water, ground water, sea, seabed, marine and coastal areas and natural resources, or any combination or part thereof; 'environmental authorisation' means an environmental permit, a prescribed process licence, a construction permit or an operation permit; 'environmental control instruments' means mechanisms based on financial incentives to protect the environment and shall include environmental taxes and other charges on environmentally harmful conduct; 'environmental permit' means the permit required under section 11; 'loss or damage' includes personal injury, loss of life, loss of use or enjoyment of property and pecuniary loss, including loss of income; 'natural resources' means the living plants, animals and organisms, ecosystems, forests, waterways, soils, and other biological factors within the natural environment, and the geologic formations, mineral deposits, renewable and non-renewable assets and the habitat of the living plants, animals and organisms; 'person responsible', in relation to any project, enterprise, construction or development, includes any person who owns, operates, or exercises economic power or control over or at whose order or on whose behalf the project, enterprise, construction or development will be or, as the case may be, is being undertaken; 'pollution of the environment' and 'environmental pollution' mean pollution of the environment by the release into the natural environment of any contaminant; 'prescribed process' means any process designated by the Minister in regulations as a prescribed process; 'process' means any activity carried on by any person which is capable of causing any adverse effect on the environment; 'public authority' means any Ministry, local government authority or local democratic organ; 'regulations' means regulations made by the Minister under this Act; 'release' of a substance into any environmental medium whenever it is released directly or indirectly into that medium includes— (a) in relation to air, any emission of the substance into the air; (b) in relation to water, any entry (including any discharge) of the substance into water; (c) in relation to land, any deposit, keeping or disposal of the substance in or on land; 'waste' includes any matter prescribed to be waste and any matter, whether liquid, solid, gaseous or radioactive, which is discharged, emitted, or deposited in the environment in such volume, composition or manner as to cause an adverse effect." }
                 ]
             },
-            "LITTER ENFORCEMENT REGULATIONS 2013": {
-                "Regulation 3: Depositing litter in a public place": [
-                    { "title": "Subsection (1)", "content": "A person who, without reasonable excuse, deposits litter (advertently or inadvertently) in or on any public place, other than in a receptacle placed for the purpose of collecting it or at any approved site leaves such litter there, is guilty of an offence under this Regulations." },
-                    { "title": "Subsection (3)", "content": "Where litter is deposited from a motor vehicle, other than a bus or taxi when plying for hire or from a trailer, on to a public place contrary to subsection (1) and it cannot be determined which of the occupants of the motor vehicle or trailer is responsible for the said litter, the driver of the motor vehicle shall be deemed to be the person who deposited the litter from the motor vehicle or trailer." },
-                    { "title": "Subsection (6)", "content": "A person who is guilty of an offence under this Regulation is liable on summary conviction of:- (a) in the case of an individual, to a fine of fifty thousand dollars; or (b) in the case of a body corporate to a fine of one hundred thousand dollars." }
+            "PART II: ESTABLISHMENT AND FUNCTIONS OF AGENCY": {
+                "Section 3: Establishment of Agency": [
+                    { "title": "Subsection (1)", "content": "There is hereby established the Environmental Protection Agency which shall be a body corporate governed by a Board of Directors." },
+                    { "title": "Subsection (2)", "content": "The First and Second Schedules shall have effect as to the matters therein provided for in relation to the Agency and the Board of Directors, respectively." }
                 ],
-                "Regulation 4: Littering from motor vehicle or trailer in motion": [
-                    { "title": "Subsection (1)", "content": "A person who transports in or on a motor vehicle or trailer along a public place, any substance or material which is likely to fall off or blow off from the motor vehicle or trailer shall be guilty of an offence under this Regulations where, while being so transported it is either- (a) not sufficiently well secured as to prevent it from falling off the motor vehicle or trailer, or (b) not so covered as to prevent it from blowing off the motor vehicle or trailer." },
-                    { "title": "Subsection (2)", "content": "A person who is guilty of an offence under this regulation is liable on summary conviction of: (a) in the case of an individual to a fine of fifty thousand dollars; (b) or in the case of a body corporate to a fine of one hundred thousand dollars." }
-                ]
-            },
-            "EXPANDED POLYSTYRENE BAN REGULATIONS 2015": {
-                "Regulation 5: Prohibition": [
-                    { "title": "Subsection (1)", "content": "The importation, manufacture, sale or offer for sale of expanded polystyrene products in Guyana is hereby prohibited." },
-                    { "title": "Subsection (2)", "content": "Any person or entity found to be in contravention of Regulation 5(1) shall be liable upon summary conviction to a fine of no less than fifty thousand dollars." }
+                "Section 4: Functions of Agency": [
+                    { "title": "Subsection (1)", "content": "The functions of the Agency are— (a) to take such steps as are necessary for the effective management of the natural environment so as to ensure conservation, protection, and sustainable use of its natural resources; (b) to promote the participation of members of the public in the process of integrating environmental concerns in planning for development on a sustainable basis; (c) to co-ordinate the environmental management activities of all persons, organisations and agencies; (d) to establish, monitor and enforce environmental regulations; (e) to prevent or control environmental pollution; (f) to co-ordinate an integrated coastal zone management programme; (g) to ensure that any developmental activity which may cause an adverse effect on the natural environment be assessed before such activity is commenced and that such adverse effect be taken into account in deciding whether or not such activity should be authorised; (h) to co-ordinate and maintain a programme for the conservation of biological diversity and its sustainable use; (i) to co-ordinate the establishment and maintenance of a national parks and protected area system and a wildlife protection management programme; (j) to promote and encourage a better understanding and appreciation of the natural environment and its role in social and economic development; (k) to establish and co-ordinate institutional linkages locally, nationally, regionally and internationally; (l) to play a co-ordinating role in the preparation and implementation of cross-sectoral programmes of environmental contents; (m) to advise the Minister on the criteria and thresholds of activity for specifying what may amount to a significant effect on the environment; (n) to advise the Minister on matters of general policy relating to the protection, conservation and care of the environment and the impact of development; (o) to perform such other functions pertaining to the protection of the environment as may be assigned to it by the Minister by or under this Act or any other law." },
+                    { "title": "Subsection (2)", "content": "In the exercise of its functions the Agency may— (a) formulate and submit to the Minister policy recommendations and plans in furtherance of its functions; (b) conduct surveys, investigations and monitoring of the causes, nature, extent and prevention of harm to the environment and of pollution and assist and co-operate with other persons or bodies carrying out similar surveys or investigations; (c) conduct, promote and co-ordinate research in relation to any aspect of pollution or prevention thereof; (d) conduct inspections and investigations to ensure compliance with this Act or the regulations and investigate complaints relating to breaches of this Act or the regulations; (e) provide information and education to the public regarding the need for and methods of protection of the environment, improvement of the environment where altered directly or indirectly by human activity, and the benefits of sustainable use of natural resources; (f) conduct and co-ordinate compilation of resource inventories, surveys and ecological analyses to monitor and obtain information on the social and biophysical environment with special reference to environmentally sensitive areas and areas where development is already taking place or likely to take place; (g) formulate standards and codes of practice to be observed for the improvement and maintenance of the quality of the environment and limits on the release of contaminants into the environment; (h) request, examine, review, evaluate and approve or reject environmental impact assessments and risk analyses and make suitable recommendations for the mitigation of adverse effects of any proposed activity on the environment; (i) conduct studies and make recommendations on standards relating to the improvement of the environment and the maintenance of a sound ecological system; (j) monitor and co-ordinate monitoring of trends in the use of natural resources and their impact on the environment; (k) establish and enforce administrative penalties; (l) advise the Minister on the content and applicability of environmental control instruments; (m) produce sectoral guidelines on what may constitute significant effects on the environment; (n) obtain expert or technical advice from any suitably qualified person on such terms and conditions as the Agency shall think fit." },
+                    { "title": "Subsection (3)", "content": "In the exercise of its functions the Agency shall— (a) compile and amend from time to time with the assistance of internationally recognised environmental groups a list of approved persons who have the qualifications and experience to carry out environmental impact assessments; (b) produce physical accounts in accordance with modern accounting standards to record the natural capital of Guyana; (c) carry out surveys and obtain baseline information on the natural resources including ecosystems and micro ecosystems, population counts, species identification, location and condition and make such surveys, studies and information available to members of the public at their request and upon payment of the cost of photocopies; (d) provide general information to the public on the state of the environment by regular reports produced at least annually; (e) maintain and make available to members of the public during normal working hours a register of all environmental impact assessments carried out, environmental authorisations granted and other information in accordance with section 36." },
+                    { "title": "Subsection (4)", "content": "In performing its functions the Agency shall make use of current principles of environmental management, namely— (a) the 'polluter pays' principle: the polluter should bear the cost of measures to reduce pollution decided upon by public authorities, to ensure that the environment is in an acceptable state, and should compensate citizens for the harm they suffer from pollution; (b) the 'precautionary' principle: where there are threats of serious or irreversible damage, lack of full scientific certainty shall not be used as a reason for postponing measures to prevent environmental degradation; (c) the 'strict liability' legal principle: any person who contravenes this Act or regulations shall be liable to the penalties prescribed therefor; (d) the 'avoidance' principle: it is preferable to avoid environmental damage as it can be impossible or more expensive to repair rather than prevent damage; (e) the 'state of technology' principle: measures protecting the environment are restricted by what is technologically feasible and as technology improves, the improved technology should be used to prevent and repair environmental damage." }
                 ],
-                "Regulation 6: Prohibition of sale by Food Service Establishments": [
-                    { "title": "Subsection (1)", "content": "No Food Service Establishment shall sell or provide food for consumption, either on or off the said Establishment's premises, in expanded polystyrene food service products." },
-                    { "title": "Subsection (2)", "content": "The provisions of Regulation 6(1) shall not apply to prepackaged food that a Food Service Establishment sells or otherwise provides for consumption in expanded polystyrene containers that have been filled and sealed prior to receipt by the Food Service Establishment." }
+                "Section 5: Deference to authority of Agency": [
+                    { "title": "Full Text", "content": "Without prejudice to the provisions of section 14, any person or authority under any other written law, vested with power in relation to the environment shall defer to the authority of the Agency and shall request an environmental authorisation from the Agency before approving or determining any matter in respect of which an environmental authorisation is required under this Act." }
                 ]
             },
-            "NOISE MANAGEMENT REGULATIONS 2000": {
-                "Regulation 13: Offence to cause loud, etc. noise in buildings or premises": [
-                    { "title": "Full Text", "content": "Any person who is the proprietor, occupier or person having charge of any building, private premises or any part thereof or any vehicle, at any time causes or suffers or allows any loud, unnecessary, excessive or unusual noises in the operation of any sound-making device or equipment so that the noise or music is plainly audible at a distance of fifty feet from the vehicle or premises in which or from which it is produced commits an offence and shall be liable on summary conviction to a fine of not less than three hundred thousand dollars nor more than seven hundred and fifty thousand dollars and to imprisonment for one year." }
+            "PART III: ADMINISTRATION": {
+                "Section 6: Appointments, remuneration": [
+                    { "title": "Full Text", "content": "(1) The Minister on the advice of the Board of Directors shall appoint— (a) an Executive Director, who shall be the Chief Executive Officer of the Agency; and (b) such other officers, including a Secretary, as may be necessary for the administration of this Act or the regulations. (2) The Executive Director shall appoint all other employees as may be necessary to discharge the functions under this Act or the regulations. (3) The remuneration and other terms and conditions of appointment of a Director, including the Executive Director shall be such as may be determined by the President. (4) The remuneration and other terms and conditions of employment of the secretary and other officers and employees of the Agency employed under subsections 1(b) and (2) shall be such as may be determined or varied by the Agency from time to time. (5) Where a public officer, or any other person employed by the Government, is transferred to the Agency as an officer or employee, or vice versa, he shall be entitled to have his aggregate service in the public service, under the Government and as an officer or employee of the Agency counted for the purposes of superannuation benefits and he shall, on his ultimate retirement, be entitled to receive such benefits calculated in accordance with the Pensions Act, in respect of the aggregate of such service, from the Agency or the Government as the case may be, with, or in connection with, which he was last employed. (6) The Agency may, with the approval of the Minister, make such provisions as it thinks appropriate for the payment of pension, gratuity or other allowance in respect of the service of the officers and employees of the Agency on their retirement." }
+                ],
+                "Section 7: Delegation of authority by Agency": [
+                    { "title": "Full Text", "content": "The Agency may delegate any of its functions or powers under this Act, or the regulations, to a member of the Board of Directors, any officer of the Agency or to any other person." }
+                ],
+                "Section 8: Directions by Minister": [
+                    { "title": "Full Text", "content": "The Minister may give directions for the organisation of the Agency to enable it to discharge its functions under this Act, including the size of establishment, the employment of staff and the terms thereof, the provision of equipment and funds and the Agency shall comply with such directions." }
+                ],
+                "Section 9: Delegation of power by Minister": [
+                    { "title": "Full Text", "content": "The Minister may, in writing, delegate any of his powers, other than the power to make subsidiary legislation under this Act, to the Executive Director or to any officer of the Agency subject to such limitations, conditions and qualifications as the Minister may think fit." }
                 ]
             },
-            "HAZARDOUS WASTE MANAGEMENT REGULATIONS 2000": {
-                "Regulation 26: Contamination of any place": [
-                    { "title": "Full Text", "content": "Every person who willfully or negligently and with the knowledge that serious environmental harm will or might result causes the contamination of any place, except a declared hazardous waste disposal site, shall be guilty of an offence and shall be liable on summary conviction to a fine of not less than eight hundred thousand dollars nor more than two million dollars and to imprisonment for five years." }
-                ]
-            }
-        };
-
-        const performSearch = () => {
-            const query = searchInput.value.toLowerCase().trim();
-            if (!query) {
-                resultsDiv.innerHTML = '<p class="text-center text-gray-500">Please enter a question to search.</p>';
-                noResultsDiv.classList.add('hidden');
-                return;
-            }
-
-            loader.classList.remove('hidden');
-            searchIcon.classList.add('hidden');
-            buttonText.textContent = 'Searching...';
-            searchButton.disabled = true;
-            searchInput.disabled = true;
-            resultsDiv.innerHTML = '';
-            noResultsDiv.classList.add('hidden');
-
-            setTimeout(() => {
-                const keywords = query.split(/\s+/).filter(word => word.length > 2);
-                let searchResults = [];
-
-                for (const part in epaActSections) {
-                    for (const section in epaActSections[part]) {
-                        const subsections = epaActSections[part][section];
-                        let matchingSubsections = [];
-                        let totalScore = 0;
-
-                        subsections.forEach(subsection => {
-                            const content = subsection.content.toLowerCase();
-                            const subTitle = subsection.title.toLowerCase();
-                            const sectionTitle = section.toLowerCase();
-                            const partTitle = part.toLowerCase();
-                            let score = 0;
-
-                            keywords.forEach(keyword => {
-                                if (content.includes(keyword)) score += 2;
-                                if (subTitle.includes(keyword)) score += 8;
-                                if (sectionTitle.includes(keyword)) score += 5;
-                                if (partTitle.includes(keyword)) score += 4;
-                            });
-
-                            if (query.includes("penalty") || query.includes("fine")) {
-                                if (subTitle.includes("penalty") || content.includes("fine")) score += 15;
-                            }
-                             if (query.includes("litter") && partTitle.includes("litter")) score += 10;
-                             if (query.includes("styrofoam") && partTitle.includes("polystyrene")) score += 15;
-
-                            if (score > 0) {
-                                matchingSubsections.push({ ...subsection, score });
-                                totalScore += score;
-                            }
-                        });
-
-                        if (matchingSubsections.length > 0) {
-                            searchResults.push({
-                                part,
-                                section,
-                                subsections: matchingSubsections,
-                                score: totalScore
-                            });
-                        }
-                    }
-                }
-
-                searchResults.sort((a, b) => b.score - a.score);
+            "PART IV: ENVIRONMENTAL IMPACT ASSESSMENTS": {
+                "Section 10: Preliminary": [
+                    { "title": "Full Text", "content": "For the purposes of this Part— 'developer' means the applicant for environmental authorisation for a project or the State initiating a project; 'environmental impact assessment' means an assessment as provided in this Part; 'project' means the execution of construction works or other installations or schemes, any prescribed process or alteration thereof, any interference with any ecosystem or any other activity in the natural surroundings or landscape including those involving the extraction of natural resources, or any project listed in the Fourth Schedule and shall include public and private projects." }
+                ],
+                "Section 11: Requirement for environmental impact assessment": [
+                    { "title": "Subsection (1)", "content": "A developer of any project listed in the Fourth Schedule, or any other project which may significantly affect the environment, shall apply to the Agency for an environmental permit and shall submit with such application the fee prescribed and a summary of the project including information on— (i) the site, design and size of the project; (ii) possible effects on the environment; (iii) the duration of the project; (iv) a non-technical explanation of the project." },
+                    { "title": "Subsection (2)", "content": "Where it is not clear whether a project will significantly affect the environment, the developer shall submit to the Agency a summary of the project which shall contain the information as required by subsection (1) and the Agency shall within a reasonable period publish in at least one daily newspaper a decision with reasons as to whether the project— (a) will not significantly affect the environment, and therefore exempt from the requirement for an environmental impact assessment; or (b) may significantly affect the environment and will require an environmental impact assessment." },
+                    { "title": "Subsection (3)", "content": "(a) Any person who may be affected by a project exempted under subsection (2)(a) may lodge an appeal with the Environmental Assessment Board established under section 18 within thirty days of the date of publication of the Agency's decision, and the Environmental Assessment Board shall within a reasonable time publish a decision confirming or setting aside the Agency's decision. (b) Every person who commences a project before final determination of an appeal under paragraph (a) shall be guilty of an offence and shall be liable to the penalties prescribed under paragraph (d) of the Fifth Schedule." },
+                    { "title": "Subsection (4)", "content": "Every environmental impact assessment shall be carried out by an independent and suitably qualified person approved by the Agency and shall— (a) identify, describe and evaluate the direct and indirect effects of the proposed project on the environment including— (i) human beings; (ii) flora and fauna and species habitats; (iii) soil; (iv) water; (v) air and climatic factors; (vi) material assets, the cultural heritage and the landscape; (vii) natural resources, including how much of a particular resource is degraded or eliminated, and how quickly the natural system may deteriorate; (viii) the ecological balance and ecosystems; (ix) the interaction between the factors listed above; (x) any other environmental factor which needs to be taken into account or which the Agency may reasonably require to be included; and (b) assess every project with a view to the need to protect and improve human health and living conditions and the need to preserve the stability of ecosystems as well as the diversity of species." },
+                    { "title": "Subsection (5)", "content": "Every environmental impact assessment shall contain the following information— (a) a description of the project, including in particular— (i) the geographical area involved, the physical characteristics of the whole project and the land-use requirements during the construction and operational phases, including plans, drawings, and models; (ii) the main characteristics of the production process, including the nature and quantity of the materials used, plans, drawings and models; (iii) an estimate, by type and quantity, of expected contaminants, residues, and emissions (water, air and soil pollution, noise, vibration, light, heat, radiation) resulting from the operation of the proposed project; (iv) the length of time of the project; (b) an outline of the main alternatives studied by the developer and an indication of the main reasons for his choice, taking into account the environmental factors; (c) a description of the likely significant effects of the proposed project on the environment resulting from— (i) the existence of the project; (ii) the use of natural resources; (iii) the emission of contaminants, the creation of nuisances and the elimination of waste, and a description by the developer of the forecasting methods used to assess the effects on the environment; (d) an indication of any difficulties (technical deficiencies or lack of knowledge or expertise) encountered by the developer in compiling the required information; (e) a description of the best available technology; (f) a description of any hazards or dangers which may arise from the project and an assessment of the risk to the environment; (g) a description of the measures which the proposed developer intends to use to mitigate any adverse effects and a statement of reasonable alternatives (if any), and reasons for their rejection; (h) a statement of the degree of irreversible damage, and an explanation of how it is assessed; (i) an emergency response plan for containing and cleaning up any pollution or spill of any contaminant; (j) the developer's programme for rehabilitation and restoration of the environment; (k) a non-technical summary of the information provided under the preceding paragraphs." },
+                    { "title": "Subsection (6)", "content": "Before any environmental impact assessment is begun the Agency shall at the developer's cost publish in at least one daily newspaper a notice of the project and make available to members of the public the project summary referred to in subsection (1)." },
+                    { "title": "Subsection (7)", "content": "Members of the public shall have twenty-eight days from the date of publication referred to in subsection (6) to make written submissions to the Agency setting out those questions and matters which they require to be answered or considered in the environmental impact assessment." },
+                    { "title": "Subsection (8)", "content": "The Agency shall after consultation with the person chosen to carry out the environmental impact assessment, set the terms and scope of the environmental impact assessment taking into account any submissions made under subsection (7)." },
+                    { "title": "Subsection (9)", "content": "During the course of the environmental impact assessment the developer and the person carrying out the environmental impact assessment shall— (a) consult members of the public, interested bodies and organizations; (b) provide to members of the public on request, and at no more than the reasonable cost of photocopying, copies of information obtained for the purpose of the environmental impact assessment." },
+                    { "title": "Subsection (10)", "content": "The developer and the person carrying out the environmental impact assessment shall submit the environmental impact assessment together with an environmental impact statement to the Agency for evaluation and recommendations and publish a notice in at least one daily newspaper confirming that the environmental impact assessment and environmental impact statement have been submitted to the Agency and members of the public shall have sixty days from the date of publication of such notice to make such submissions to the Agency as they consider appropriate." },
+                    { "title": "Subsection (11)", "content": "The environmental impact assessment and the environmental impact statement shall be public documents and the developer and the Agency shall have such documents available for the duration of the project and five years thereafter for inspection, subject to the deletion therefrom of such information as may disclose intellectual property rights, during normal working hours at their respective offices and shall supply on request and on payment of cost of photocopying copies of such documents." },
+                    { "title": "Subsection (12)", "content": "All expenses of the environmental impact assessment process (including the preparation of the preliminary and full environmental impact assessments, the environmental impact statements, and the conduct of public hearings) shall be borne by the developer." },
+                    { "title": "Subsection (13)", "content": "The Agency shall submit the environmental impact assessment together with the environmental impact statement to the Environmental Assessment Board for its consideration and recommendation as to whether the environmental impact assessment and the environmental impact statement are acceptable." }
+                ],
+                "Section 12: Approval or rejection of project": [
+                    { "title": "Subsection (1)", "content": "The Agency shall approve or reject the project after taking into account— (a) the submissions made under section 11(10) and the recommendations of the Environmental Assessment Board made under section 18(2); and (b) the views expressed during the consultations under section 11(9); and (c) the environmental impact assessment and environmental impact statement."        searchResults.sort((a, b) => b.score - a.score);
 
                 if (searchResults.length > 0) {
-                    displayResults(searchResults.slice(0, 4));
+                    displayResults(searchResults);
                 } else {
                     noResultsDiv.classList.remove('hidden');
                 }

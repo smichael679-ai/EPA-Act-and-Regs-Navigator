@@ -23,6 +23,7 @@
         .loader { border-top-color: #10B981; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         #install-prompt { display: none; position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 100; }
+        .subsection { border-top: 1px solid #e5e7eb; padding-top: 0.75rem; margin-top: 0.75rem; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -67,7 +68,7 @@
         // --- PWA Service Worker Registration ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js') // Points to your service worker file
+                navigator.serviceWorker.register('./sw.js') // Points to your service worker file
                     .then(registration => console.log('ServiceWorker registration successful.'))
                     .catch(err => console.log('ServiceWorker registration failed: ', err));
             });
@@ -104,61 +105,53 @@
 
         const epaActSections = {
             "ENVIRONMENTAL PROTECTION ACT": {
-                "Section 2: Interpretation": "Defines key terms like 'adverse effect', 'contaminant', 'environment', 'pollution', etc.",
-                "Section 4: Functions of Agency": "Outlines the EPA's functions, including managing the environment, preventing pollution, and enforcing regulations.",
-                "Section 11: Requirement for environmental impact assessment": "Specifies when an EIA is required for projects that may significantly affect the environment.",
-                "Section 19: Prevention of pollution": "Prohibits activities that cause pollution unless reasonable measures are taken. Outlines penalties and cleanup responsibilities.",
-                "Section 26 & 27: Enforcement and Prohibition Notices": "The Agency may serve an enforcement notice for contraventions and a prohibition notice for serious threats to the environment.",
-                "Section 39: Damage to environment": "Establishes offences and penalties for causing material or serious environmental harm.",
-                "Section 48: Civil proceedings": "Allows any person who has suffered loss or damage from an environmental offence to sue for recovery in the High Court."
-            },
-            "AUTHORISATIONS REGULATIONS 2000": {
-                 "Regulation 8: Fees": "Specifies fees for various applications, including registration, environmental authorisation, transfers, and variances.",
-                 "Regulation 13: Grounds for refusal": "The Agency may refuse to grant an environmental authorisation based on false information, bankruptcy, or if it's not in the best interest of Guyana.",
-                 "Regulation 17: Requirement to apply for authorisation": "Details the comprehensive information required for an environmental authorisation application.",
-                 "Regulation 20: Application for variance": "A holder of an authorisation can apply to vary its provisions based on scientific evidence and other specific conditions.",
-                 "Regulation 21: Transfer of environmental authorisation": "An environmental authorisation cannot be transferred without the prior consent of the Agency."
-            },
-            "AIR QUALITY REGULATIONS 2000": {
-                "Regulation 4: General requirement to apply for an authorisation": "Any facility emitting air contaminants from industrial, commercial, or agricultural activities must apply for an environmental authorisation.",
-                "Regulation 8: Parameter limits for stationary sources": "The Agency will establish parameter limits for contaminants from stationary sources. New facilities must not exceed these limits.",
-                "Regulation 18: Restrictions on sale of new and used imported vehicles": "Prohibits the sale of imported vehicles that do not meet established exhaust emission standards.",
-                "Regulation 24: Air Pollution Monitoring Index": "The Agency may prepare an Air Pollution Monitoring Index and can order curtailment of pollution sources during an air pollution episode."
-            },
-            "NOISE MANAGEMENT REGULATIONS 2000": {
-                "Regulation 4: Permissible noise levels": "The Agency will fix permissible noise levels (in decibels) for various categories, including residential, commercial, and industrial areas.",
-                "Regulation 10: Restriction on construction activities": "Construction activities may be prohibited during certain hours (11:00 p.m. to 6:00 a.m. Mon-Sat, and on Sundays) on the complaint of a neighbour.",
-                "Regulation 13: Offence to cause loud noise": "It is an offence to operate any sound-making device in a building or vehicle that is plainly audible at a distance of fifty feet.",
-                "Regulation 14: Restriction on sound-making device in a public place": "Prohibits operating sound-making devices in public places between 11 p.m. and 7 a.m. without prior permission from the Agency."
-            },
-            "WATER QUALITY REGULATIONS 2000": {
-                "Regulation 4: General requirement to apply for an authorisation": "Any person or facility discharging effluent from industrial, commercial, agricultural, or sewage-related activities must apply for an environmental authorisation.",
-                "Regulation 5: Restrictions on the discharge of effluents": "Prohibits the discharge of effluent into any inland or coastal waters or on land without an environmental authorisation. Prohibits toxic, radiological, or chemical wastes.",
-                "Regulation 9: Parameter limits of effluent discharges": "The Agency will establish parameter limits for substances that can be discharged. New facilities must not exceed these limits.",
-                "Regulation 23: Spill or accidental discharge": "The person responsible for a spill must immediately inform the Agency and is required to contain, cleanse, or abate the spill."
-            },
-            "HAZARDOUS WASTE MANAGEMENT REGULATIONS 2000": {
-                "Regulation 2: Interpretation": "Defines 'hazardous waste' as waste that, due to its characteristics, may pose a substantial hazard to human health.",
-                "Regulation 4: General requirement to apply for an authorisation": "Any person operating a facility that generates, transports, treats, stores, or disposes of hazardous waste must apply for an environmental authorisation.",
-                "Regulation 15: Requirement for emergency preparedness plan": "Holders of an authorisation must submit an emergency preparedness plan to minimize hazards from fires, explosions, or accidental releases.",
-                "Regulation 21: Requirement for manifest": "A hazardous waste manifest is required for the transportation of hazardous waste, detailing its origin, composition, and destination.",
-                "Regulation 26: Contamination of any place": "Willfully or negligently causing contamination of any place (except a declared disposal site) can lead to a fine of not less than $800,000 and imprisonment for five years."
+                "Section 19: Prevention of pollution": [
+                    { "title": "General Duty", "content": "A person shall not undertake an activity that causes or is likely to cause pollution of the environment unless the person takes all reasonable and practicable measures to prevent or minimise any resulting adverse effect." },
+                    { "title": "Prohibited Discharge", "content": "A person shall not discharge any contaminant in an amount, concentration or level in excess of that prescribed by regulations or stipulated by any environmental authorisation." },
+                    { "title": "Penalties", "content": "Contravention of subsection (1)(b) can lead to penalties prescribed under paragraph (e) of the Fifth Schedule." },
+                    { "title": "Responsibility of Polluter", "content": "The person responsible for the contaminant must immediately notify the Agency, restore the natural environment, and compensate any person who suffers loss or damage." }
+                ],
+                "Section 39: Damage to environment": [
+                    { "title": "Intentional or Reckless Harm (Material)", "content": "Causing material environmental harm by polluting intentionally or recklessly is an offence with penalties under paragraph (f) of the Fifth Schedule." },
+                    { "title": "General Harm (Material)", "content": "Causing material environmental harm by polluting is an offence with penalties under paragraph (e) of the Fifth Schedule." },
+                    { "title": "Intentional or Reckless Harm (Serious)", "content": "Causing serious environmental harm by polluting intentionally or recklessly is an offence with penalties under paragraph (h) of the Fifth Schedule." },
+                    { "title": "Definition of Material Harm", "content": "Environmental harm is 'material' if it consists of a high impact nuisance or involves non-trivial harm to human health or the environment." },
+                    { "title": "Definition of Serious Harm", "content": "Environmental harm is 'serious' if it involves high impact or wide-scale harm to human health or the environment." }
+                ]
             },
             "LITTER ENFORCEMENT REGULATIONS 2013": {
-                "Regulation 2: What is litter?": "Defines litter broadly to include any solid or liquid material, from bottles and paper to derelict vehicles and animal remains.",
-                "Regulation 3: Depositing litter in a public place": "It is an offence to deposit litter in a public place other than in a proper receptacle. The fine is $50,000 for an individual and $100,000 for a company.",
-                "Regulation 4: Disposal of litter from motor vehicle": "It is an offence to transport any material likely to fall or blow off a vehicle. The fine is $50,000 for an individual and $100,000 for a company.",
-                "Regulation 22: Powers and duties of litter prevention wardens": "Litter prevention wardens are authorized to enforce the regulations, require a person to clean up litter, and issue removal orders."
+                "Regulation 3: Depositing litter in a public place": [
+                    { "title": "Offence", "content": "A person who deposits litter in or on any public place, other than in a receptacle or approved site, is guilty of an offence." },
+                    { "title": "Penalty (Individual)", "content": "A fine of fifty thousand dollars ($50,000)." },
+                    { "title": "Penalty (Company)", "content": "A fine of one hundred thousand dollars ($100,000)." },
+                    { "title": "Vehicle Occupants", "content": "If it cannot be determined which occupant is responsible for litter from a vehicle, the driver is deemed responsible." }
+                ],
+                "Regulation 4: Disposal of litter from motor vehicle": [
+                    { "title": "Offence", "content": "It is an offence to transport any material likely to fall or blow off a vehicle because it is not sufficiently secured or covered." },
+                    { "title": "Penalty", "content": "The fine is $50,000 for an individual and $100,000 for a company." }
+                ]
             },
             "EXPANDED POLYSTYRENE BAN REGULATIONS 2015": {
-                "Regulation 5: Prohibition": "The importation, manufacture, sale, or offer for sale of expanded polystyrene (Styrofoam) products in Guyana is prohibited.",
-                "Regulation 6: Prohibition of Sale by Food Service Establishments": "No food service establishment shall sell or provide food in expanded polystyrene food service products.",
-                "Regulation 7: Penalty": "Food service establishments in contravention may be issued a written warning or face a fine of no less than one hundred thousand dollars."
+                "Regulation 5: Prohibition": [
+                    { "title": "General Ban", "content": "The importation, manufacture, sale, or offer for sale of expanded polystyrene (Styrofoam) products in Guyana is prohibited." },
+                    { "title": "Penalty", "content": "Any person or entity in contravention shall be liable upon summary conviction to a fine of no less than fifty thousand dollars." }
+                ],
+                "Regulation 6: Prohibition of Sale by Food Service Establishments": [
+                    { "title": "Restriction", "content": "No food service establishment shall sell or provide food for consumption in expanded polystyrene food service products." },
+                    { "title": "Exemption", "content": "This does not apply to pre-packaged food that was filled and sealed in polystyrene containers before the establishment received it." }
+                ]
             },
-            "FIFTH SCHEDULE PENALTIES (FROM MAIN ACT)": {
-                "Paragraph (e)": "A fine of not less than $75,000 nor more than $500,000 and imprisonment for six months.",
-                "Paragraph (f)": "A fine of not less than $300,000 nor more than $750,000 and imprisonment for one year.",
-                "Paragraph (h)": "A fine of not less than $800,000 nor more than $2,000,000 and imprisonment for five years."
+            "NOISE MANAGEMENT REGULATIONS 2000": {
+                "Regulation 13: Offence to cause loud, etc. noise in buildings or premises": [
+                    { "title": "Offence", "content": "Any proprietor, occupier or person in charge of a building or vehicle who allows loud, unnecessary, or excessive noise from a sound-making device, such that it is plainly audible at a distance of fifty feet, commits an offence." },
+                    { "title": "Penalty", "content": "Liable on summary conviction to a fine of not less than three hundred thousand dollars nor more than seven hundred and fifty thousand dollars and to imprisonment for one year." }
+                ]
+            },
+            "HAZARDOUS WASTE MANAGEMENT REGULATIONS 2000": {
+                "Regulation 26: Contamination of any place": [
+                    { "title": "Offence", "content": "Every person who willfully or negligently and with the knowledge that serious environmental harm will or might result causes the contamination of any place, except a declared hazardous waste disposal site, shall be guilty of an offence." },
+                    { "title": "Penalty", "content": "Liable on summary conviction to a fine of not less than eight hundred thousand dollars nor more than two million dollars and to imprisonment for five years." }
+                ]
             }
         };
 
@@ -175,48 +168,60 @@
             buttonText.textContent = 'Searching...';
             searchButton.disabled = true;
             searchInput.disabled = true;
-
             resultsDiv.innerHTML = '';
             noResultsDiv.classList.add('hidden');
 
-            setTimeout(() => { 
+            setTimeout(() => {
                 const keywords = query.split(/\s+/).filter(word => word.length > 2);
                 let searchResults = [];
 
                 for (const part in epaActSections) {
                     for (const section in epaActSections[part]) {
-                        const content = epaActSections[part][section].toLowerCase();
-                        const sectionTitle = section.toLowerCase();
-                        const partTitle = part.toLowerCase();
-                        let score = 0;
+                        const subsections = epaActSections[part][section];
+                        let matchingSubsections = [];
+                        let totalScore = 0;
 
-                        keywords.forEach(keyword => {
-                            if (content.includes(keyword)) score += 2;
-                            if (sectionTitle.includes(keyword)) score += 5;
-                            if (partTitle.includes(keyword)) score += 8;
+                        subsections.forEach(subsection => {
+                            const content = subsection.content.toLowerCase();
+                            const subTitle = subsection.title.toLowerCase();
+                            const sectionTitle = section.toLowerCase();
+                            const partTitle = part.toLowerCase();
+                            let score = 0;
+
+                            keywords.forEach(keyword => {
+                                if (content.includes(keyword)) score += 2;
+                                if (subTitle.includes(keyword)) score += 8;
+                                if (sectionTitle.includes(keyword)) score += 5;
+                                if (partTitle.includes(keyword)) score += 4;
+                            });
+
+                            if (query.includes("penalty") || query.includes("fine")) {
+                                if (subTitle.includes("penalty") || content.includes("fine")) score += 15;
+                            }
+                             if (query.includes("litter") && partTitle.includes("litter")) score += 10;
+                             if (query.includes("styrofoam") && partTitle.includes("polystyrene")) score += 15;
+
+                            if (score > 0) {
+                                matchingSubsections.push({ ...subsection, score });
+                                totalScore += score;
+                            }
                         });
-                        
-                        if (query.includes("penalty") && (sectionTitle.includes("penalties") || partTitle.includes("penalties"))) score += 10;
-                        if (query.includes("fine") && (sectionTitle.includes("penalties") || partTitle.includes("penalties"))) score += 10;
-                        if (query.includes("litter") && partTitle.includes("litter")) score += 10;
-                        if (query.includes("styrofoam") && partTitle.includes("polystyrene")) score += 15;
-                        if (query.includes("noise") && partTitle.includes("noise")) score += 10;
-                        if (query.includes("water") && partTitle.includes("water")) score += 10;
-                        if (query.includes("air") && partTitle.includes("air")) score += 10;
-                        if (query.includes("hazardous") && partTitle.includes("hazardous")) score += 10;
-                        if (query.includes("eia") && sectionTitle.includes("environmental impact assessment")) score += 10;
 
-                        if (score > 0) {
-                            searchResults.push({ part, section, content: epaActSections[part][section], score });
+                        if (matchingSubsections.length > 0) {
+                            searchResults.push({
+                                part,
+                                section,
+                                subsections: matchingSubsections,
+                                score: totalScore
+                            });
                         }
                     }
                 }
 
                 searchResults.sort((a, b) => b.score - a.score);
-                const topResults = searchResults.slice(0, 5);
 
-                if (topResults.length > 0) {
-                    displayResults(topResults);
+                if (searchResults.length > 0) {
+                    displayResults(searchResults.slice(0, 4));
                 } else {
                     noResultsDiv.classList.remove('hidden');
                 }
@@ -229,17 +234,26 @@
 
             }, 1000);
         };
-        
+
         const displayResults = (results) => {
-            resultsDiv.innerHTML = results.map(result => `
-                <div class="result-item bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                    <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full mb-3">${result.part}</span>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">${result.section}</h3>
-                    <p class="text-gray-600 leading-relaxed">${highlightKeywords(result.content, searchInput.value)}</p>
-                </div>
-            `).join('');
+            resultsDiv.innerHTML = results.map(result => {
+                const subsectionsHtml = result.subsections.map(sub => `
+                    <div class="subsection">
+                        <h4 class="font-semibold text-gray-700">${sub.title}</h4>
+                        <p class="text-gray-600 leading-relaxed">${highlightKeywords(sub.content, searchInput.value)}</p>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="result-item bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full mb-3">${result.part}</span>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">${result.section}</h3>
+                        ${subsectionsHtml}
+                    </div>
+                `;
+            }).join('');
         };
-        
+
         const highlightKeywords = (text, query) => {
             const keywords = query.toLowerCase().split(/\s+/).filter(word => word.length > 2);
             let highlightedText = text;
